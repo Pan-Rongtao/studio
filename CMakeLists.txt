@@ -1,0 +1,55 @@
+# 0. CMake Defs
+cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_policy(VERSION 2.6)
+
+# 1. Project Name
+project(studio)
+
+# 2. Env (Include/Lib Path, C/CXX/LD FLAGS)
+SET(SUPPORT_TARGETS win32 linux64 linux-arm android qnx64 qnx-aarch64)
+IF(WIN32)
+	set(TARGET "win32")
+ELSEIF("${TARGET}" STREQUAL "")
+	MESSAGE(FATAL_ERROR "target is not specified, set var 'TARGET' to one of [${SUPPORT_TARGETS}] using '-DTARGET=xxx'")
+ELSE()
+	LIST(FIND SUPPORT_TARGETS ${TARGET} RET)
+	IF(${RET} EQUAL -1)
+		MESSAGE(FATAL_ERROR "unknown target '${TARGET}', set var 'TARGET' to one of [${SUPPORT_TARGETS}] using '-DTARGET=xxx'")
+	ENDIF()
+ENDIF()
+
+IF("${CMAKE_INSTALL_PREFIX}" STREQUAL "")
+	SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/dist/${TARGET})
+ENDIF()
+SET(CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/include)
+SET(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
+SET(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX}/bin)
+SET(CMAKE_INSTALL_ETCDIR ${CMAKE_INSTALL_PREFIX}/etc)
+SET(CMAKE_INSTALL_DOCDIR ${CMAKE_INSTALL_PREFIX}/doc)
+SET(CMAKE_DEBUG_POSTFIX d)
+
+IF("${TARGET}" MATCHES "win")
+	add_compile_options(/wd4996)
+ELSEIF("${TARGET}" MATCHES "linux")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ELSEIF("${TARGET}" MATCHES "android")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++11-narrowing")
+ELSEIF("${TARGET}" MATCHES "qnx")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+ENDIF()
+
+SET(3RDPARTY_DIR ${CMAKE_SOURCE_DIR}/3rdparty)
+include_directories(include)
+include_directories(${3RDPARTY_DIR}/include)
+link_directories(${3RDPARTY_DIR}/lib/${TARGET})
+
+# 4. Sub Projects
+add_subdirectory(src)
+#add_subdirectory(examples)
+
+# 5. Project Install
+#INSTALL(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
+#INSTALL(DIRECTORY ${3RDPARTY_DIR}/include/rttr DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+#FILE(GLOB LIBS ${3RDPARTY_DIR}/lib/${TARGET}/*.dll ${3RDPARTY_DIR}/lib/${TARGET}/*rttr*.lib ${3RDPARTY_DIR}/lib/${TARGET}/*.so*)
+#INSTALL(FILES ${LIBS} DESTINATION ${CMAKE_INSTALL_LIBDIR})
