@@ -2,11 +2,12 @@
 project(editor)
 
 # 2. Project Env (Include/Lib Path, C/CXX/LD FLAGS)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(imgui)
 
 # 3. Project Build
 set(INCLUDE_PREFIX ${CMAKE_SOURCE_DIR}/src/${PROJECT_NAME})
-file(GLOB_RECURSE INC_LIST ${INCLUDE_PREFIX}/*.h)
+file(GLOB_RECURSE INC_LIST ${INCLUDE_PREFIX}/*.h ${INCLUDE_PREFIX}/*.hpp)
 file(GLOB_RECURSE SRC_LIST *.cpp)
 
 if(WIN32)

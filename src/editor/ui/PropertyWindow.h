@@ -3,7 +3,7 @@
 namespace studio
 {
 
-class ProjectWindow
+class PropertyWindow
 {
 public:
 	static void draw();

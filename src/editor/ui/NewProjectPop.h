@@ -1,14 +1,13 @@
 #pragma once
+#include "imgui/imgui.h"
 
 namespace studio
 {
 
-class ProjectWindow
+class NewProjectPop
 {
 public:
 	static void draw();
-
 };
-
 
 }
