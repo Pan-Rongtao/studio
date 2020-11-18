@@ -1,4 +1,4 @@
-# 1. Project Name
+﻿# 1. Project Name
 project(src)
 
 # 2. Env (Include/Lib Path, C/CXX/LD FLAGS)
@@ -27,7 +27,3 @@ endfunction(group_by_dir)
 add_subdirectory(editor)
 
 # 5. Project Install
-
-# 6. Group Projects
-SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
-#SET_PROPERTY(TARGET editor PROPERTY FOLDER ${PROJECT_NAME})

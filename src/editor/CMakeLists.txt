@@ -17,7 +17,7 @@ endif()
 
 add_executable(${PROJECT_NAME} ${INC_LIST} ${SRC_LIST})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} glfw3)
+target_link_libraries(${PROJECT_NAME} glfw3 optimized rttr_core debug rttr_core_d)
 
 # 4. Project Install
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_LIBDIR})

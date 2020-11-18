@@ -1,4 +1,5 @@
 #include "App.h"
+#include "core/Plugin.hpp"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl/imgui_impl_glfw.h"
 #include "imgui/imgui_impl/imgui_impl_opengl3.h"
@@ -12,6 +13,7 @@
 #include "ui/ConsoleWindow.h"
 #include "ui/NewProjectPop.h"
 #include "ui/ToolWindow.h"
+
 
 using namespace studio;
 
@@ -30,6 +32,8 @@ GLFWwindow* App::m_glfwWindow = nullptr;
 
 int App::run(int argc, char ** argv)
 {
+	Plugin p("modeld");
+
 	initData();
 	setup();
 
@@ -66,11 +70,11 @@ void App::setup()
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	//fonts
-	io.Fonts->AddFontFromFileTTF(R"(../../../../resource/fonts/siyuanheiti.otf)", 16.0f, NULL, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/siyuanheiti.otf)", 16.0f, NULL, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
 	static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-	io.Fonts->AddFontFromFileTTF(R"(../../../../resource/fonts/fa-solid-900.ttf)", 16.0f, &icons_config, icons_ranges);
-	io.Fonts->AddFontFromFileTTF(R"(../../../../resource/fonts/fa-regular-400.ttf)", 16.0f, &icons_config, icons_ranges);
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-solid-900.ttf)", 16.0f, &icons_config, icons_ranges);
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-regular-400.ttf)", 16.0f, &icons_config, icons_ranges);
 
 }
 #include <iostream>
