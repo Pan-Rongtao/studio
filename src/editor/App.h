@@ -1,5 +1,6 @@
 #pragma once
 #include "core/Node.hpp"
+#include "studio.h"
 
 struct GLFWwindow;
 
@@ -14,6 +15,7 @@ namespace studio
 		static bool ShowPreviewWindow;	//预览窗口
 		static bool ShowPropertyWindow;	//属性窗口
 		static bool ShowConsoleWindow;	//控制台窗口
+		static bool ShowToolWindow;		//新工程弹窗
 
 		static bool ShowNewProjectPop;	//新工程弹窗
 	};
@@ -27,11 +29,10 @@ public:
 	static NodePtr visualTreeData;
 
 private:
-	static void prepareRenderContext();
+	static void setup();
 	static void render();
 	static void initData();
 	static void drawUI();
-	static void cleanup();
 
 	static GLFWwindow* m_glfwWindow;
 };

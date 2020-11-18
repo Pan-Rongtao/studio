@@ -54,8 +54,8 @@ void MainMenu::showMenuEdit()
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_UNDO_ALT, u8"撤销"), "Ctrl+Z")) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_REDO_ALT, u8"重做"), "Ctrl+Y")) {}
 	ImGui::Separator();
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CUT, u8"剪切"), "Ctrl+X")) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_COPY, u8"复制"), "Ctrl+C")) {}
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CUT, u8"剪切"), "Ctrl+X")) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_PASTE, u8"粘贴"), "Ctrl+V")) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TRASH_ALT, u8"删除"), "Delete")) {}
 	ImGui::Separator();
@@ -104,5 +104,5 @@ void MainMenu::showMenuWindows()
 void MainMenu::showMenuHelp()
 {
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_INFO_CIRCLE, u8"关于"))) {}
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_GAVEL, u8"工具"))) {}
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_GAVEL, u8"工具"))) { Windows::ShowToolWindow = true; }
 }

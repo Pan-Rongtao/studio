@@ -18,15 +18,19 @@ void HierarchyWindow::draw()
 
 void HierarchyWindow::loopDraw(NodePtr node)
 {
+	static auto isItemHandling = []()
+	{
+		return ImGui::IsItemClicked() || ImGui::IsItemFocused() || (ImGui::IsItemHovered(ImGuiHoveredFlags_None) && ImGui::IsMouseReleased(1));
+	};
+
 	if (!node) return;
 
 	static ImGuiTreeNodeFlags baseFlags = /*ImGuiTreeNodeFlags_OpenOnArrow | */ImGuiTreeNodeFlags_SpanFullWidth/* | ImGuiTreeNodeFlags_OpenOnDoubleClick*/;
 
-//	ImGui::OpenPopupOnItemClick("item context menu", 1);
 	bool bOpened = ImGui::TreeNodeEx(node->name.data(), visualTreeSelectedItem == node ? baseFlags | ImGuiTreeNodeFlags_Selected : baseFlags);
 
 	showContextMenu(node->name.data());
-	if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
+	if (isItemHandling())
 	{
 		visualTreeSelectedItem = node;
 	}
@@ -41,11 +45,10 @@ void HierarchyWindow::loopDraw(NodePtr node)
 			}
 			else
 			{
-				//ImGui::OpenPopupOnItemClick("item context menu 1", 1);
 				bool isOpen = ImGui::TreeNodeEx(child->name.data(), child == visualTreeSelectedItem ? baseFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Selected : baseFlags | ImGuiTreeNodeFlags_Leaf);
 
 				showContextMenu(child->name.data());
-				if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
+				if (isItemHandling())
 				{
 					visualTreeSelectedItem = child;
 				}
@@ -64,12 +67,22 @@ void HierarchyWindow::showContextMenu(const char *id)
 {
 	if (ImGui::BeginPopupContextItem(id))
 	{
-		char buf[100] = "";
-		sprintf(buf, "%s Set to zero", id);
-		if (ImGui::Selectable(buf)) value = 0.0f;
-		if (ImGui::Selectable("Set to PI")) value = 3.1415f;
-		ImGui::SetNextItemWidth(-1);
-		ImGui::DragFloat("##Value", &value, 0.1f, 0.0f, 0.0f);
+		if (ImGui::BeginMenu(NB_ICON_TEXT(ICON_FA_PLUS_CIRCLE, u8"添加")))
+		{
+			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CAMERA, u8"Camera"));
+			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TRAFFIC_LIGHT, u8"Light"));
+			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CAMERA, u8"Camera"));
+			ImGui::EndMenu();
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_PENCIL_ALT, u8"重命名"), "F2")) {}
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_COPY, u8"复制"), "Ctrl+C")) {}
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CUT, u8"剪切"), "Ctrl+X")) {}
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_PASTE, u8"粘贴"), "Ctrl+V")) {}
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TRASH_ALT, u8"删除"), "Delete")) {}
+		ImGui::Separator();
+		if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_EXPAND_ALT, u8"展开/收起"), "Ctrl+G")) {}
+
 		ImGui::EndPopup();
 	}
 }

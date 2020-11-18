@@ -12,6 +12,12 @@ namespace studio
 	}
 }
 
+#ifdef _WIN32
+#define NB_NEWLINE  "\r\n"
+#else
+#define NB_NEWLINE  "\n"
+#endif
+
 #define NB_ICON_TEXT(icon, text)	makeIconText(icon, "\t", text).data()
 #define NB_ALIGN_TEXT(text)			makeIconText("\t", "\t", text).data()
 #define NB_ICON(icon)				makeIconText(icon, "", "").data()

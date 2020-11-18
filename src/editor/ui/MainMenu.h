@@ -15,7 +15,7 @@ private:
 	static void showMenuAssets();
 	static void showMenuWindows();
 	static void showMenuHelp();
-
+	
 };
 
 }
