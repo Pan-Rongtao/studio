@@ -46,7 +46,7 @@ include_directories(${3RDPARTY_DIR}/include)
 link_directories(${3RDPARTY_DIR}/lib/${TARGET})
 
 # 4. Sub Projects
-add_subdirectory(src)
+add_subdirectory(editor)
 
 # 5. Project Install
 INSTALL(DIRECTORY resource DESTINATION ${CMAKE_INSTALL_PREFIX})
