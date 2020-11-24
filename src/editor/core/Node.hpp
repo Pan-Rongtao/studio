@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "rttr/type.h"
 
 namespace studio
 {
@@ -12,7 +13,7 @@ using NodePtr = std::shared_ptr<Node>;
 class Node
 {
 public:
-	Node(const std::string &_name) : name(_name) {}
+	Node(const std::string &_name, rttr::type t) : name(_name), type(t){}
 
 	void addChild(NodePtr node)
 	{
@@ -47,6 +48,7 @@ public:
 	}
 
 	std::string name;
+	rttr::type type;
 	std::vector<NodePtr> children;
 	Node *parent{nullptr};
 

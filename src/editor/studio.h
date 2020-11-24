@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "ui/fontcpp/IconsFontAwesome5.h"
+#include "ui/fontcpp/IconsFontAwesome5Pro.h"
+#include "ui/fontcpp/IconsMaterialDesign.h"
 
 namespace studio
 {

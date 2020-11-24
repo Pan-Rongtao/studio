@@ -4,6 +4,8 @@ project(editor)
 # 2. Project Env (Include/Lib Path, C/CXX/LD FLAGS)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(imgui)
+include_directories(D:\uit-newbrush\dist\win32\include)
+link_directories(D:\uit-newbrush\dist\win32\lib)
 
 # 3. Project Build
 set(INCLUDE_PREFIX ${CMAKE_SOURCE_DIR}/src/${PROJECT_NAME})

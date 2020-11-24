@@ -1,5 +1,6 @@
 #pragma once
 #include "imgui/imgui.h"
+#include "fmt/format.h"
 
 namespace studio
 {
@@ -112,13 +113,18 @@ namespace studio
         ImGui::End();
     }
 };
-
+#include <string>
 class ConsoleWindow
 {
 public:
 	static void draw();
 
-	static void info(const char* s)		{ m_log.AddLog("[info] %s\n", s); }
+	template<typename FormatString, typename... Args>
+	static void info(const FormatString &fmt, const Args &... args)
+	{
+		auto s = fmt::format(fmt, args...); 
+		m_log.AddLog("[info] %s\n", s.data());
+	}
 	static void warn(const char* s)		{ m_log.AddLog("[warn] %s\n", s); }
 	static void error(const char* s)	{ m_log.AddLog("[error] %s\n", s); }
 	

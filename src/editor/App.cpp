@@ -1,5 +1,5 @@
 #include "App.h"
-#include "core/Plugin.hpp"
+#include "core/Plugin.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl/imgui_impl_glfw.h"
 #include "imgui/imgui_impl/imgui_impl_opengl3.h"
@@ -32,7 +32,8 @@ GLFWwindow* App::m_glfwWindow = nullptr;
 
 int App::run(int argc, char ** argv)
 {
-	Plugin p("modeld");
+	auto systemPlugin = PluginManager::makePlugin("nbd");
+	systemPlugin->update();
 
 	initData();
 	setup();
@@ -74,96 +75,10 @@ void App::setup()
 	static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-solid-900.ttf)", 16.0f, &icons_config, icons_ranges);
-	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-regular-400.ttf)", 16.0f, &icons_config, icons_ranges);
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-regular-400.ttf)", 16.0f, &icons_config, icons_ranges); 
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/fa-light-300.ttf)", 16.0f, &icons_config, icons_ranges);
+	io.Fonts->AddFontFromFileTTF(R"(../resource/fonts/MaterialIcons-Regular.ttf)", 16.0f, &icons_config, icons_ranges);
 
-}
-#include <iostream>
-
-void prepareTriangleData(int &program, uint32_t &vao)
-{
-	const char *vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-		"}\0";
-	const char *fragmentShaderSource = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"void main()\n"
-		"{\n"
-		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 0.2f);\n"
-		"}\n\0";
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	// check for shader compile errors
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// fragment shader
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	// check for shader compile errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// link shaders
-	program = glCreateProgram();
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
-	glLinkProgram(program);
-	// check for linking errors
-	glGetProgramiv(program, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(program, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-	// ------------------------------------------------------------------
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // left  
-		0.5f, -0.5f, 0.0f, // right 
-		0.0f,  0.5f, 0.0f  // top   
-	};
-
-	unsigned int VBO;
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &VBO);
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-	glBindVertexArray(0);
-}
-
-void drawTriangle(int program, uint32_t vao)
-{
-	// draw our first triangle
-	glUseProgram(program);
-	glBindVertexArray(vao); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void App::render()
@@ -173,17 +88,13 @@ void App::render()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 		int display_w, display_h;
 		glfwGetFramebufferSize(m_glfwWindow, &display_w, &display_h);
 		glViewport(0, 0, display_w, display_h);
 		glClear(GL_COLOR_BUFFER_BIT);
 	};
-
-	int program;
-	uint32_t vao;
-	prepareTriangleData(program, vao);
-
+	
 	ImGuiIO& io = ImGui::GetIO();
 	glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
 	while (!glfwWindowShouldClose(m_glfwWindow))
@@ -192,7 +103,6 @@ void App::render()
 		imguiNewFrame();
 
 		studio::App::drawUI();
-		drawTriangle(program, vao);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -221,15 +131,7 @@ void App::render()
 void App::initData()
 {
 	visualTreeData;
-	visualTreeData = std::make_shared<Node>("root");
-	visualTreeData->addChild(std::make_shared<Node>("0"));
-	visualTreeData->addChild(std::make_shared<Node>("1"));
-	visualTreeData->addChild(std::make_shared<Node>("2"));
-	//visualTreeData->get("1")->addChild(std::make_shared<Node>("1_0"));
-	//visualTreeData->get("1")->addChild(std::make_shared<Node>("1_1"));
-	//visualTreeData->get("1")->addChild(std::make_shared<Node>("1_2"));
-	visualTreeData->get("2")->addChild(std::make_shared<Node>("2_0"));
-	visualTreeData->get("2")->addChild(std::make_shared<Node>("2_1"));
+	visualTreeData = std::make_shared<Node>("scene", type::get_by_name("nb::Scene"));
 }
 
 void App::drawUI()

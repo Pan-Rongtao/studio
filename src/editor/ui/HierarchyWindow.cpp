@@ -2,6 +2,8 @@
 #include "imgui.h"
 #include "../App.h"
 #include <string>
+#include "core/Plugin.h"
+#include "ui/ConsoleWindow.h"
 
 using namespace studio;
 float value;
@@ -12,7 +14,7 @@ void HierarchyWindow::draw()
 	ImGui::Begin(u8"²ã¼¶", &Windows::ShowHierarchyWindow);
 
 	loopDraw(App::visualTreeData);
-		
+	
 	ImGui::End();
 }
 
@@ -26,8 +28,9 @@ void HierarchyWindow::loopDraw(NodePtr node)
 	if (!node) return;
 
 	static ImGuiTreeNodeFlags baseFlags = /*ImGuiTreeNodeFlags_OpenOnArrow | */ImGuiTreeNodeFlags_SpanFullWidth/* | ImGuiTreeNodeFlags_OpenOnDoubleClick*/;
-
-	bool bOpened = ImGui::TreeNodeEx(node->name.data(), visualTreeSelectedItem == node ? baseFlags | ImGuiTreeNodeFlags_Selected : baseFlags);
+	auto flags = visualTreeSelectedItem == node ? baseFlags | ImGuiTreeNodeFlags_Selected : baseFlags;
+	if (!node->hasChild()) flags |= ImGuiTreeNodeFlags_Leaf;
+	bool bOpened = ImGui::TreeNodeEx(node->name.data(), flags);
 
 	showContextMenu(node->name.data());
 	if (isItemHandling())
@@ -69,9 +72,25 @@ void HierarchyWindow::showContextMenu(const char *id)
 	{
 		if (ImGui::BeginMenu(NB_ICON_TEXT(ICON_FA_PLUS_CIRCLE, u8"Ìí¼Ó")))
 		{
-			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CAMERA, u8"Camera"));
-			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TRAFFIC_LIGHT, u8"Light"));
-			ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CAMERA, u8"Camera"));
+			for (auto plugin : PluginManager::plugins)
+			{
+				for (auto one : plugin->visuals)
+				{
+					auto const &type = one.first;
+					auto const &name = one.second.name;
+					auto const &icon = one.second.icon;
+					auto const &description = one.second.description;
+					bool click = ImGui::MenuItem(makeIconText(icon.data(), "\t", name.data()).data());
+					if (click)
+					{
+						ConsoleWindow::info("add item {}", name.data());
+						auto newNode = std::make_shared<Node>(name, type);
+						visualTreeSelectedItem->addChild(newNode);
+					//	ImGui::SetNextTreeNodeOpen(true);
+						break;
+					}
+				}
+			}
 			ImGui::EndMenu();
 		}
 		ImGui::Separator();
