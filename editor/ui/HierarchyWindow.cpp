@@ -1,6 +1,6 @@
 #include "HierarchyWindow.h"
 #include "imgui.h"
-#include "../App.h"
+#include "Common.h"
 #include <string>
 #include "Plugin.h"
 #include "ui/ConsoleWindow.h"
@@ -11,9 +11,9 @@ NodePtr HierarchyWindow::visualTreeSelectedItem;
 
 void HierarchyWindow::draw()
 {
-	ImGui::Begin(u8"²ã¼¶", &Windows::ShowHierarchyWindow);
+	ImGui::Begin(u8"²ã¼¶", &Datas::ShowHierarchyWindow);
 
-	loopDraw(App::visualTreeData);
+	loopDraw(Datas::visualTreeData);
 	
 	ImGui::End();
 }

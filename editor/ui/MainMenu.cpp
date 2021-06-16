@@ -1,7 +1,6 @@
 #include "MainMenu.h"
 #include <cstdlib>
-#include "App.h"
-#include "Share.h"
+#include "Common.h"
 
 using namespace studio;
 
@@ -21,7 +20,7 @@ void MainMenu::draw()
 
 void MainMenu::showMenuFile()
 {
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_FILE_MEDICAL, u8"新建项目"), "Ctrl+N")) { Windows::ShowNewProjectPop = true; }
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_FILE_MEDICAL, u8"新建项目"), "Ctrl+N")) { Datas::ShowNewProjectPop = true; }
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_FOLDER_OPEN, u8"打开项目"), "Ctrl+O")) {}
 	if (ImGui::BeginMenu(NB_ICON_TEXT(ICON_FA_HISTORY, u8"最近使用过")))
 	{
@@ -93,7 +92,7 @@ void MainMenu::showMenuAssets()
 void MainMenu::showMenuWindows()
 {
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_SITEMAP, u8"层级窗口"))) {}
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_VIDEO, u8"预览窗口"))) { Windows::ShowPreviewWindow = true; }
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_VIDEO, u8"预览窗口"))) { Datas::ShowPreviewWindow = true; }
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TABLE, u8"属性窗口"))) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_ASTERISK, u8"工程窗口"))) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TERMINAL, u8"控制台窗口"))) {}
@@ -104,5 +103,5 @@ void MainMenu::showMenuWindows()
 void MainMenu::showMenuHelp()
 {
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_INFO_CIRCLE, u8"关于"))) {}
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_GAVEL, u8"工具"))) { Windows::ShowToolWindow = true; }
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_GAVEL, u8"工具"))) { Datas::ShowToolWindow = true; }
 }

@@ -1,9 +1,9 @@
 #include "ProjectWindow.h"
 #include "imgui.h"
-#include "../App.h"
+#include "Common.h"
 
 void studio::ProjectWindow::draw()
 {
-	ImGui::Begin(u8"工程", &Windows::ShowProjectWindow);
+	ImGui::Begin(u8"工程", &Datas::ShowProjectWindow);
 	ImGui::End();
 }

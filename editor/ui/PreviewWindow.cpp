@@ -1,9 +1,9 @@
 #include "PreviewWindow.h"
 #include "imgui.h"
-#include "../App.h"
+#include "Common.h"
 
 void studio::PreviewWindow::draw()
 {
-	ImGui::Begin(u8"‘§¿¿", &Windows::ShowPreviewWindow);
+	ImGui::Begin(u8"‘§¿¿", &Datas::ShowPreviewWindow);
 	ImGui::End();
 }

@@ -1,11 +1,11 @@
 #include "ToolWindow.h"
-#include "App.h"
+#include "Common.h"
 
 using namespace studio;
 
 void ToolWindow::draw()
 {
-	ImGui::Begin(u8"工具", &Windows::ShowToolWindow, ImGuiWindowFlags_NoDocking);
+	ImGui::Begin(u8"工具", &Datas::ShowToolWindow, ImGuiWindowFlags_NoDocking);
 	ImGui::ShowStyleEditor();
 	ImGui::End();
 }

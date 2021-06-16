@@ -1,6 +1,5 @@
 #include "NewProjectPop.h"
-#include "App.h"
-#include "Share.h"
+#include "Common.h"
 
 using namespace studio;
 
@@ -9,7 +8,7 @@ static ImVec2 itemWidthxxx = ImVec2(0.0f, 0.0f);
 void NewProjectPop::draw()
 {
 	ImGui::OpenPopup(u8"新建项目");
-	if (ImGui::BeginPopupModal(u8"新建项目", &Windows::ShowNewProjectPop, /*ImGuiWindowFlags_NoResize |*/ ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal(u8"新建项目", &Datas::ShowNewProjectPop, /*ImGuiWindowFlags_NoResize |*/ ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		static char nameBuf[64] = ""; 
 		//ImGui::SetKeyboardFocusHere();

@@ -1,5 +1,5 @@
 #include "ConsoleWindow.h"
-#include "App.h"
+#include "Common.h"
 
 using namespace studio;
 
@@ -7,7 +7,7 @@ ExampleAppLog ConsoleWindow::m_log;
 void ConsoleWindow::draw()
 {
 	ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
-	ImGui::Begin(u8"控制台", &Windows::ShowConsoleWindow);
+	ImGui::Begin(u8"控制台", &Datas::ShowConsoleWindow);
 
 	if (ImGui::SmallButton(u8"测试Log"))
 	{
@@ -18,5 +18,5 @@ void ConsoleWindow::draw()
 
 	ImGui::End();
 
-	m_log.Draw(u8"控制台", &Windows::ShowConsoleWindow);
+	m_log.Draw(u8"控制台", &Datas::ShowConsoleWindow);
 }

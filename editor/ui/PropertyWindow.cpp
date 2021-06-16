@@ -1,6 +1,6 @@
 #include "PropertyWindow.h"
 #include "imgui.h"
-#include "../App.h"
+#include "Common.h"
 #include "HierarchyWindow.h"
 #include "Plugin.h"
 
@@ -9,7 +9,7 @@ using namespace rttr;
 
 void PropertyWindow::draw()
 {
-	ImGui::Begin(u8" Ù–‘", &Windows::ShowPropertyWindow);
+	ImGui::Begin(u8" Ù–‘", &Datas::ShowPropertyWindow);
 
 	showProperties();
 
