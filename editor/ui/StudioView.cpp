@@ -4,10 +4,12 @@
 #include "ui/HierarchyWindow.h"
 #include "ui/ProjectWindow.h"
 #include "ui/PreviewWindow.h"
-#include "ui/PropertyWindow.h"
 #include "ui/ConsoleWindow.h"
 #include "ui/NewProjectPop.h"
 #include "ui/ToolWindow.h"
+#include "ImGuiHelper.h"
+
+using namespace rttr;
 
 void studio::StudioView::onInit()
 {
@@ -26,11 +28,13 @@ void studio::StudioView::onInit()
 
 void studio::StudioView::onRender()
 {
+	variant v;
+
 	if (Datas::ShowMainMenu)			MainMenu::draw();
 	if (Datas::ShowHierarchyWindow)	HierarchyWindow::draw();
 	if (Datas::ShowProjectWindow)		ProjectWindow::draw();
 	if (Datas::ShowPreviewWindow)		PreviewWindow::draw();
-	if (Datas::ShowPropertyWindow)	PropertyWindow::draw();
+	if (Datas::ShowPropertyWindow)	ImGuiWidget::showPropertyEditor(v, &Datas::ShowPropertyWindow);
 	if (Datas::ShowConsoleWindow)		ConsoleWindow::draw();
 	if (Datas::ShowToolWindow)		ToolWindow::draw();
 

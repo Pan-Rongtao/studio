@@ -93,7 +93,7 @@ void MainMenu::showMenuWindows()
 {
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_SITEMAP, u8"层级窗口"))) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_VIDEO, u8"预览窗口"))) { Datas::ShowPreviewWindow = true; }
-	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TABLE, u8"属性窗口"))) {}
+	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TABLE, u8"属性窗口"))) { Datas::ShowPropertyWindow = true; }
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_ASTERISK, u8"工程窗口"))) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_TERMINAL, u8"控制台窗口"))) {}
 	if (ImGui::MenuItem(NB_ICON_TEXT(ICON_FA_CHART_LINE, u8"动画窗口"))) {}
